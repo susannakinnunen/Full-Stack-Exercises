@@ -23,9 +23,20 @@ const Button = ({ handleClick, text }) => {
 
 const Statistics = (props) => {
   console.log(props)
+  if (props.all === 0){
+    return(
+    <p>No props given</p>
+    )
+  }
+  
   return(
   <div>
-    {props.text} {props.stat} {props.percentage}
+    <p>{props.good_text} {props.good}</p>
+    <p>{props.neutral_text} {props.neutral}</p>
+    <p>{props.bad_text} {props.bad}</p>
+    <p>{props.all_text} {props.all}</p>
+    <p>{props.average_text} {props.average}</p>
+    <p>{props.positive_text} {props.positive} {props.percentage}</p>
   </div>
   )
 }
@@ -68,12 +79,7 @@ const App = () => {
       <Button handleClick={handleNeutralClick} text="neutral"/>
       <Button handleClick={handleBadlClick} text="bad"/>
       <Header header={statisticsheader} />
-      <Statistics stat={good} text="good"/>
-      <Statistics stat={neutral} text="neutral"/>
-      <Statistics stat={bad} text="bad"/>
-      <Statistics stat={all} text="all"/>
-      <Statistics stat={average} text="average"/>
-      <Statistics stat={positive} text="positive" percentage="%"/>
+      <Statistics good={good} good_text="good" neutral={neutral} neutral_text="neutral" bad={bad} bad_text="bad" all={all} all_text="all" average={average} average_text="average" positive={positive} positive_text="positive" percentage="%"/>
     </div>
   )
 }
