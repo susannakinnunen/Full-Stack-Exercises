@@ -21,11 +21,11 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
-const Display = ({stat, text, percentage}) => {
-  console.log(stat,text,percentage)
+const Statistics = (props) => {
+  console.log(props)
   return(
   <div>
-    {text} {stat} {percentage}
+    {props.text} {props.stat} {props.percentage}
   </div>
   )
 }
@@ -68,12 +68,12 @@ const App = () => {
       <Button handleClick={handleNeutralClick} text="neutral"/>
       <Button handleClick={handleBadlClick} text="bad"/>
       <Header header={statisticsheader} />
-      <Display stat={good} text="good"/>
-      <Display stat={neutral} text="neutral"/>
-      <Display stat={bad} text="bad"/>
-      <Display stat={all} text="all"/>
-      <Display stat={average} text="average"/>
-      <Display stat={positive} text="positive" percentage="%"/>
+      <Statistics stat={good} text="good"/>
+      <Statistics stat={neutral} text="neutral"/>
+      <Statistics stat={bad} text="bad"/>
+      <Statistics stat={all} text="all"/>
+      <Statistics stat={average} text="average"/>
+      <Statistics stat={positive} text="positive" percentage="%"/>
     </div>
   )
 }
