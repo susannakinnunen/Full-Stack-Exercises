@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 const Header = ({header}) => {
   console.log(header)
   return (
@@ -20,16 +21,17 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
-const Display = ({stat, text}) => {
-  console.log(stat,text)
+const Display = ({stat, text, percentage}) => {
+  console.log(stat,text,percentage)
   return(
   <div>
-    {text} {stat}
+    {text} {stat} {percentage}
   </div>
   )
 }
 
 
+   
 const App = () => {
   // tallenna napit omaan tilaansa
   const mainheader = "give feedback"
@@ -37,18 +39,27 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const all = good + bad + neutral
+  const average = (good -bad) / (good + bad + neutral)
+  const positive = good / (good + bad + neutral)
 
   const handleGoodClick = () => {
     setGood(good + 1)
-  }
+
+    }
+  
 
   const handleNeutralClick = () => {
     setNeutral(neutral + 1)
-  }
+
+    }
+
 
   const handleBadlClick = () => {
     setBad(bad + 1)
-  }
+
+    }
+
 
   return (
     <div>
@@ -60,6 +71,9 @@ const App = () => {
       <Display stat={good} text="good"/>
       <Display stat={neutral} text="neutral"/>
       <Display stat={bad} text="bad"/>
+      <Display stat={all} text="all"/>
+      <Display stat={average} text="average"/>
+      <Display stat={positive} text="positive" percentage="%"/>
     </div>
   )
 }
