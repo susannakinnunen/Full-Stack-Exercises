@@ -24,9 +24,8 @@ const Button = ({ handleClick, text }) => {
 const StatisticLine = (props) => {
   console.log(props)
   return(
-    <div>
-      <p>{props.text} {props.value} {props.percentage}</p>
-    </div>
+      <tr><td>{props.text} {props.value} {props.percentage}</td></tr>
+
   )
 }
 
@@ -41,12 +40,18 @@ const Statistics = (props) => {
   
   return(
     <div>
-      <StatisticLine text="good" value={props.good}/> 
-      <StatisticLine text="neutral" value={props.neutral}/> 
-      <StatisticLine text="bad" value={props.bad}/> 
-      <StatisticLine text="all" value={props.all}/>
-      <StatisticLine text="average" value={props.average}/>
-      <StatisticLine text="positive" value={props.positive} percentage="%"/>
+      <table>
+        <tbody>
+          <tr>
+            <StatisticLine text="good" value={props.good}/> 
+            <StatisticLine text="neutral" value={props.neutral}/> 
+            <StatisticLine text="bad" value={props.bad}/> 
+            <StatisticLine text="all" value={props.all}/>
+            <StatisticLine text="average" value={props.average}/>
+            <StatisticLine text="positive" value={props.positive} percentage="%"/>
+          </tr>
+          </tbody>
+      </table>
     </div> 
   )
 }
@@ -61,8 +66,8 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const all = good + bad + neutral
-  const average = (good -bad) / (good + bad + neutral)
-  const positive = good / (good + bad + neutral)
+  const average = Math.round((good -bad) / (good + bad + neutral) * 10) / 10
+  const positive = Math.round((good / (good + bad + neutral)) * 100 * 10) / 10
 
   const handleGoodClick = () => {
     setGood(good + 1)
