@@ -1,5 +1,37 @@
 import { useState } from 'react'
 
+const MostVotes = ({biggestVote, anecdoteMostVotes}) => {
+  if (biggestVote === 0) {
+    return (
+    <div>
+      <p>Kaikilla on nolla ääntä.</p>
+    </div>
+    )
+  }
+
+  return (
+    <div>
+      <p>
+        {anecdoteMostVotes}
+      </p>
+      <p>has {biggestVote} votes</p>
+    </div>
+  )
+}
+
+const Header = ({header}) => {
+  console.log(header)
+  return (
+    <div>
+      <h1> 
+      {header}
+      </h1>
+
+    </div>
+  )
+}
+
+
 const Button = ({ handleClick, text }) => {
   console.log(handleClick,text)
   return(
@@ -10,6 +42,8 @@ const Button = ({ handleClick, text }) => {
 }
 
 const App = () => {
+  const anecdoteOfDay = "Anecdote of the day"
+  const anecdoteMostVotes = "Anecdote with most votes"
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -27,6 +61,9 @@ const App = () => {
   
   const [index, setIndex] = useState(0)
 
+  const [biggestVote, setBiggestVote] = useState(0)
+
+  const [indexWithBiggestValue, setindexWithBiggestValue] = useState(0)
   const random_number = () => {
     return Math.floor(Math.random() * anecdotes.length)
   }
@@ -47,17 +84,23 @@ const App = () => {
     setVotes(copyVotes)
     console.log(copyVotes)
     console.log("votes", votes)
-
+    setBiggestVote(Math.max(...copyVotes))
+    const copyBiggestVote = Math.max(...copyVotes)
+    console.log("biggestvote",copyBiggestVote)
+    setindexWithBiggestValue(copyVotes.indexOf(copyBiggestVote))
     }
 
 
 
   return (
     <div>
+      <Header header={anecdoteOfDay}/>
       <p>{selected}</p>
       <p>has votes {votes[index]}</p>
       <Button handleClick={handleVoteClick} text="vote"/>
       <Button handleClick={handleAnecdoteClick} text = "next anecdote"/>
+      <Header header={anecdoteMostVotes}/>
+      <MostVotes biggestVote={biggestVote} anecdoteMostVotes={anecdotes[indexWithBiggestValue]}/>
     </div>
   )
 }
