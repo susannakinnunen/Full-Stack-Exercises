@@ -1,5 +1,47 @@
 import { useState } from 'react'
 
+const Filter = ({filter, handleFilter}) => {
+  return(
+  <div>
+    <p>filter shown with</p><input type="text" value={filter} onChange={handleFilter}/>
+  </div>
+  )
+}
+
+const PersonForm = (props) => {
+  return(
+    <div>
+      <form onSubmit={props.addNameAndNumber}>
+      <div>
+          name: <input value={props.newName} onChange={props.handleNameAdd}/>
+          </div>
+        <div>
+          number: <input value={props.newNumber} onChange={props.handleNumberAdd}/>
+          </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </div>
+    
+
+  )
+  }
+
+const Persons = (props) => {
+  return(
+    <div>
+      {props.personsToShow.map(person => 
+      <p key={person.name}>
+      {person.name} {person.number}</p>
+       )}
+
+    </div>
+  )
+}
+
+
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -59,29 +101,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        <p>filter shown with</p><input type="text" value={filter} onChange={handleFilter}/>
-      </div>
+      <Filter filter={filter} handleFilter={handleFilter}/>
+
       <h2>add new</h2>
-      <form onSubmit={addNameAndNumber}>
-      <div>
-          name: <input value={newName} onChange={handleNameAdd}/>
-          </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberAdd}/>
-          </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-        <div>debug: {newName}</div>
-      </form>
+      <PersonForm newName={newName} handleNameAdd={handleNameAdd} newNumber={newNumber} handleNumberAdd={handleNumberAdd} addNameAndNumber={addNameAndNumber}/>
       <h2>Numbers</h2>
-      <div>
-      {personsToShow.map(person => 
-      <p key={person.name}>
-      {person.name} {person.number}</p>
-       )}
-      </div>
+      <Persons personsToShow={personsToShow}/>
         
     </div>
   )
