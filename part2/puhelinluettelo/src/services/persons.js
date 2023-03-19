@@ -18,4 +18,10 @@ const getAll = () => {
     return
   }
 
-  export default { getAll, create, deleteName }
+  const update = (id, newObject) => {
+    console.log("id", id)
+    const request = axios.put(`${baseUrl}/${id}`, newObject)
+    return request.then(response => response.data)
+  }
+
+  export default { getAll, create, deleteName, update }
