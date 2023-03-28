@@ -102,7 +102,7 @@ const App = () => {
   }
 
   if (countriesToShow.length === 1){
-    console.log("countruesToShow", countriesToShow)
+    console.log("countriesToShow", countriesToShow)
     return(
       <div>
       <Filter filter={filter} handleFilter={handleFilter}/>
