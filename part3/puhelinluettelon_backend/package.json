@@ -8,11 +8,14 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf build && cd ../puhelinluettelon_frontend && npm run build && cp -r build ../puhelinluettelon_backend",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint ."
+
   },
   "author": "Susanna",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^8.38.0",
     "nodemon": "^2.0.22"
   },
   "dependencies": {
