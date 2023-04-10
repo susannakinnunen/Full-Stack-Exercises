@@ -1,7 +1,7 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
-{  "title": "Hyvät blogit",
-  "author": "Blogge Bloggari",
+{  "title": "Kivat blogit",
+  "author": "Clogge Bloggari",
   "url": "www.hyvatblogit.com",
   "likes": 20}
