@@ -48,6 +48,59 @@ test('identifying property', async () => {
   expect(response.body[0].id).toBeDefined()
 })
 
+test('a valid blog can be added ', async () => {
+  const newBlog = {
+    title: "Hienot blogit",
+    author: "Togge Bloggari",
+    url: "www.hienotblogit.com",
+    likes: 15
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+
+  expect(response.body).toHaveLength(initialBlogs.length + 1)
+
+})
+
+test('likes equal to zero when not given ', async () => {
+  const newBlog = {
+    title: "Mahtavat blogit",
+    author: "Mogge Bloggari",
+    url: "www.mahtavatblogit.com"
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const blog = response.body.filter(blog => blog.title === "Mahtavat blogit") 
+
+  expect(blog[0].likes).toEqual(0)
+
+})
+
+test('status code 400 when no title given ', async () => {
+  const newBlog = {
+    author: "Mogge Bloggari",
+    url: "www.mahtavatblogit.com",
+    likes: 16
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
