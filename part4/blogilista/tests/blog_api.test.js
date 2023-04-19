@@ -39,6 +39,15 @@ test('all blogs are returned', async () => {
 
   expect(response.body).toHaveLength(initialBlogs.length)
 })
-  afterAll(async () => {
-    await mongoose.connection.close()
-  })
+
+test('identifying property', async () => {
+  const response = await api.get('/api/blogs')
+
+  console.log(response.body[0].id)
+
+  expect(response.body[0].id).toBeDefined()
+})
+
+afterAll(async () => {
+  await mongoose.connection.close()
+})
