@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
@@ -99,6 +100,40 @@ test('status code 400 when no title given ', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+})
+
+test('succeeds with status code 204 if id is valid', async () => {
+  const blogs = await helper.blogsInDb()
+  const blogToDelete = blogs[0]
+  console.log("blogi to delete",blogToDelete.id)
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd).toHaveLength(
+    initialBlogs.length - 1
+  )
+
+  const titles = blogsAtEnd.map(r => r.title)
+
+  expect(titles).not.toContain(blogToDelete.content)
+})
+
+test('status code 200 when likes changed', async () => {
+  const blogs = await helper.blogsInDb()
+  const blogToUpdate = blogs[0]
+  console.log('id', blogToUpdate.id)
+  await api
+  .put(`/api/blogs/${blogToUpdate.id}`)
+  .expect(200)
+
+  const updatedBlogs = await helper.blogsInDb()
+  const updatedBlog =  updatedBlogs.filter(blog => blog.id === blogToUpdate.id)
+  console.log("updatedBlof", updatedBlog)
+
+  expect(updatedBlog[0].likes).toEqual(0)
 })
 
 afterAll(async () => {
