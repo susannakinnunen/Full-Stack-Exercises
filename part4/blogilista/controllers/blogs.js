@@ -1,26 +1,32 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1})
   response.json(blogs)
   })
   
 blogsRouter.post('/', async (request, response) => {
-    const body = new Blog(request.body)
+    const body = request.body
+
+    const user = await User.findById(body.user)
 
     const blog = new Blog({
       title: body.title,
       author: body.author,
       url: body.url,
-      likes: body.likes ? body.likes : 0
+      likes: body.likes ? body.likes : 0,
+      user: user._id
     })
 
     try{
     const savedBlog = await blog.save()
+    user.notes = user.notes.concat(savedBlog._id)
+    await user.save()
     response.status(201).json(savedBlog) 
     } catch(exception) {
-      response.status(400).json()
+      response.status(400).json({error: 'title and url required'})
     }
 })
 

@@ -136,6 +136,45 @@ test('status code 200 when likes changed', async () => {
   expect(updatedBlog[0].likes).toEqual(0)
 })
 
+
+test('status code 400 and valid error message given when no username given ', async () => {
+  const newUser = {
+    name: "Make",
+    password: "liiloo"
+  }
+
+  await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+    .expect({error: 'username required'})
+})
+
+test('status code 400 and valid error message given when password missing ', async () => {
+  const newUser = {
+    username: "Make"
+  }
+
+  await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+    .expect({error: 'password missing or shorter than 3 characters'})
+})
+
+test('status code 400 and valid error message given when password shorter than 3 characters ', async () => {
+  const newUser = {
+    username: "OP",
+    password: "o"
+  }
+
+  await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+    .expect({error: 'password missing or shorter than 3 characters'})
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
