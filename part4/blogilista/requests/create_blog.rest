@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1c3N1IiwiaWQiOiI2NDQzY2IyNmQyMTNjOWIzNDM1ODk2NWYiLCJpYXQiOjE2ODIxNjU0MDl9.ujsfvsTlLUg7AN3Rq542Aw5ROJj5hlR53d8elquwP3M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1c3N1IiwiaWQiOiI2NDQzY2IyNmQyMTNjOWIzNDM1ODk2NWYiLCJpYXQiOjE2ODIxNzE4NjR9.mz3sNHC4Z4eOVC_YlpIYSdJbt_8FW4VUTFpu3m417yI
 
 {
-  "title": "Tilat",
+  "title": "Eläimet",
   "author": "Clogge Bloggari",
   "url": "www.hyvatblogit.com",
   "likes": 20
