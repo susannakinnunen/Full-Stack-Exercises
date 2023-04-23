@@ -66,9 +66,9 @@ describe('favourite blog', () => {
       test('when list has six blogs the author with most likes is', () => {
         const result = listHelper.authorWithMostLikes(listWithSixBlogs)
         expect(result).toEqual({
-            author: "Robert C. Martin",
-            blogs: 3
-        })
+          author: 'Edsger W. Dijkstra', 
+          likes: 17 }
+        )
     })
 
     })

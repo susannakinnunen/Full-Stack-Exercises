@@ -53,9 +53,38 @@ const authorWithMostBlogs = (blogs) => {
 }
 
 const authorWithMostLikes = (blogs) => {
-    const authorsAndLikes = _.chain(blogs, likes)
-    console.log("authorsandlikes",authorsAndLikes)
-    return authorsAndLikes
+  const authorsAndLikes = blogs.map(({author, likes}) =>
+  ({author, likes}))
+
+  //console.log("authorsAndLikes", authorsAndLikes)
+
+  //tehdään objekti tai lista, missä objekteina vain jokainen kirjailija
+  //vain kerran ja heidän yhteen laskettu tykkäysten määrä
+  // jos listassa on jo author, niin silloin vain lisätään likes yhteen
+
+  const authorsWithTotalLikes = authorsAndLikes.reduce((object, { author, likes }) => {
+    if (!object[author]) {
+      object[author] = likes
+    } else {
+      object[author] += likes
+    }
+    return object
+  }, {})
+
+  console.log(authorsWithTotalLikes)
+  const authorWithMostLikes = Object.entries(authorsWithTotalLikes).reduce((mostLikes, [author, likes]) => {
+    if (likes > mostLikes.likes) {
+        return {author, likes }
+    } else {
+        return mostLikes
+    }
+   }, {author: null, likes: -Infinity}
+  )
+  console.log("authorwithmostlikes",authorWithMostLikes)
+
+  return authorWithMostLikes
+
+
 }
 module.exports = {
     dummy,

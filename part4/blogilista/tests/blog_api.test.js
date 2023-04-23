@@ -4,6 +4,7 @@ const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const initialBlogs  = [
   {
@@ -20,12 +21,42 @@ const initialBlogs  = [
   }  
 ]
 
+const initialUsers = [
+  { username: "sussu",
+    name: "sussu kin",
+    password: "laa"
+},
+  { username: "salli",
+  password: "jeeee"
+
+}
+]
+
 beforeEach(async () => {
   await Blog.deleteMany({})
   let blogObject = new Blog(initialBlogs[0])
   await blogObject.save()
   blogObject = new Blog(initialBlogs[1])
   await blogObject.save()
+
+  await User.deleteMany({})
+  
+  await api.post('/api/users').send(initialUsers[0])
+
+  //console.log("initialUsers", initialUsers[0])
+
+
+  const result = await api
+  .post('/api/login')
+  .send(initialUsers[0])
+
+  //console.log("response", result.body.token)
+
+  token = result.body.token
+  return token
+  
+
+
 })
 
 test('blogs are returned as json', async () => {
@@ -44,7 +75,7 @@ test('all blogs are returned', async () => {
 test('identifying property', async () => {
   const response = await api.get('/api/blogs')
 
-  console.log(response.body[0].id)
+  //console.log(response.body[0].id)
 
   expect(response.body[0].id).toBeDefined()
 })
@@ -55,10 +86,12 @@ test('a valid blog can be added ', async () => {
     author: "Togge Bloggari",
     url: "www.hienotblogit.com",
     likes: 15
+
   }
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -78,6 +111,7 @@ test('likes equal to zero when not given ', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -98,40 +132,58 @@ test('status code 400 when no title given ', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(400)
 })
 
 test('succeeds with status code 204 if id is valid', async () => {
-  const blogs = await helper.blogsInDb()
-  const blogToDelete = blogs[0]
-  console.log("blogi to delete",blogToDelete.id)
+  const blogsAtStart = await helper.blogsInDb()
+  //console.log("blogs at start",blogsAtStart)
+  
+  const newBlog = {
+    title: "Mahtavat blogit",
+    author: "Mogge Bloggari",
+    url: "www.mahtavatblogit.com"
+  }
+
+  const result = await api
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAfterAddition = await helper.blogsInDb()
+    //console.log("blogs at start",blogsAfterAddition)
+  
   await api
-    .delete(`/api/blogs/${blogToDelete.id}`)
+    .delete(`/api/blogs/${result.body.id}`)
+    .set('Authorization', `Bearer ${token}`)
     .expect(204)
 
   const blogsAtEnd = await helper.blogsInDb()
 
   expect(blogsAtEnd).toHaveLength(
-    initialBlogs.length - 1
+    blogsAfterAddition.length - 1
   )
 
   const titles = blogsAtEnd.map(r => r.title)
 
-  expect(titles).not.toContain(blogToDelete.content)
+  expect(titles).not.toContain(result.title)
 })
 
 test('status code 200 when likes changed', async () => {
   const blogs = await helper.blogsInDb()
   const blogToUpdate = blogs[0]
-  console.log('id', blogToUpdate.id)
+  ////console.log('id', blogToUpdate.id)
   await api
   .put(`/api/blogs/${blogToUpdate.id}`)
   .expect(200)
 
   const updatedBlogs = await helper.blogsInDb()
   const updatedBlog =  updatedBlogs.filter(blog => blog.id === blogToUpdate.id)
-  console.log("updatedBlof", updatedBlog)
+  //console.log("updatedBlof", updatedBlog)
 
   expect(updatedBlog[0].likes).toEqual(0)
 })
