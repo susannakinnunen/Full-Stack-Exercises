@@ -71,7 +71,7 @@ const authorWithMostLikes = (blogs) => {
     return object
   }, {})
 
-  console.log(authorsWithTotalLikes)
+  // console.log(authorsWithTotalLikes)
   const authorWithMostLikes = Object.entries(authorsWithTotalLikes).reduce((mostLikes, [author, likes]) => {
     if (likes > mostLikes.likes) {
         return {author, likes }
@@ -80,7 +80,7 @@ const authorWithMostLikes = (blogs) => {
     }
    }, {author: null, likes: -Infinity}
   )
-  console.log("authorwithmostlikes",authorWithMostLikes)
+  // console.log("authorwithmostlikes",authorWithMostLikes)
 
   return authorWithMostLikes
 
