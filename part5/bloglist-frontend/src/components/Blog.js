@@ -15,7 +15,6 @@ const Blog = ({ blog }) => {
   const user = blog.user
   
   const handleshowAll =  async (event) => {
-    //console.log(user.username)
     event.preventDefault()
     console.log("näytetäänkö kaikki vai ei")
     setShowAll(!showAll)
@@ -28,7 +27,7 @@ const Blog = ({ blog }) => {
     }
   }
 
-  if (showAll) {
+  if (showAll && user ) {
     return (
       <div style={blogStyle}>
         <div> 
@@ -40,7 +39,18 @@ const Blog = ({ blog }) => {
         </div>
     </div>
   )}
-
+  if (showAll){
+    return (
+      <div style={blogStyle}>
+        <div> 
+          <p>{blog.title} {blog.author}</p>
+          <p>{blog.url}</p>
+          <p>{blog.likes}</p>
+          <button onClick={handleshowAll}>{hideOrViewText}</button>
+        </div>
+    </div>      
+    )
+  }
   return (
     <div style={blogStyle}>
       <div> 
