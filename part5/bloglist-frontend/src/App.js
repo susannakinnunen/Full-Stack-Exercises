@@ -79,6 +79,15 @@ const App = () => {
         setSuccessMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
       })
   }
+  const addLike = (blogObject, blogId) => {
+  console.log("updates will be sent to server")
+  console.log("blogid", blogId)
+  blogService
+  .update(blogObject, blogId)
+    .then(returnedBlog =>{
+      console.log("returned blog with added likes", returnedBlog)
+    })
+  }
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -146,7 +155,7 @@ const App = () => {
       <h2>blogs</h2>
       <p>{user.username} logged in</p> <button onClick={handleLogout}>logout</button>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} addLike={addLike} />
       )}
         <Togglable buttonLabel="create new blog" ref={blogFormRef}>
           <BlogForm createBlog={addBlog}

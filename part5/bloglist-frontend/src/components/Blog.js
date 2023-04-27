@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, addLike }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -11,6 +11,7 @@ const Blog = ({ blog }) => {
   const [showAll, setShowAll] = useState(false)
   const [view, setView] = useState(false)
   const [hideOrViewText, setHideOrViewText] = useState("view")
+  const [likes, setLikes] = useState(blog.likes)
 
   const user = blog.user
   
@@ -27,13 +28,35 @@ const Blog = ({ blog }) => {
     }
   }
 
+  const handleLikes = async (event) => {
+    event.preventDefault()
+    setLikes(likes + 1)
+    if (user) {
+    const blogObject = {
+      user: user.id,
+      likes: likes,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url
+    }
+    addLike(blogObject, blog.id)}
+    else{
+    const blogObject = {
+      likes: likes,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url
+      }
+      addLike(blogObject, blog.id)}
+  }
+
   if (showAll && user ) {
     return (
       <div style={blogStyle}>
         <div> 
           <p>{blog.title} {blog.author}</p>
           <p>{blog.url}</p>
-          <p>{blog.likes}</p>
+          <p>{likes}</p> <button onClick={handleLikes}>like</button>
           <p>{user.username}</p>
           <button onClick={handleshowAll}>{hideOrViewText}</button>
         </div>
@@ -45,7 +68,7 @@ const Blog = ({ blog }) => {
         <div> 
           <p>{blog.title} {blog.author}</p>
           <p>{blog.url}</p>
-          <p>{blog.likes}</p>
+          <p>{likes}</p> <button onClick={handleLikes}>like</button>
           <button onClick={handleshowAll}>{hideOrViewText}</button>
         </div>
     </div>      
