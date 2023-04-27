@@ -6,6 +6,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
+  const [showAll, setShowAll] = useState(false) 
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
@@ -73,6 +74,7 @@ const App = () => {
     blogService
       .create(blogObject)
         .then(returnedBlog => {
+        console.log("returned blog", returnedBlog)
         setBlogs(blogs.concat(returnedBlog))
         setSuccessMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
       })
