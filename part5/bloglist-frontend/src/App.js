@@ -6,7 +6,6 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
-  const [showAll, setShowAll] = useState(false)
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -43,7 +42,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log("päästäänkö tänne")
+      console.log('päästäänkö tänne')
       setErrorMessage('wrong credentials')
       setTimeout(() => {
         setErrorMessage(null)
@@ -74,39 +73,39 @@ const App = () => {
     blogService
       .create(blogObject)
       .then(returnedBlog => {
-        console.log("returned blog", returnedBlog)
+        console.log('returned blog', returnedBlog)
         setBlogs(blogs.concat(returnedBlog).sort((a, b) => (b.likes > a.likes) ? 1 : ((a.likes > b.likes)? -1 : 0)))
         setSuccessMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
       })
   }
   const addLike = (blogObject, blogId) => {
-    console.log("updates will be sent to server")
-    console.log("blogid", blogId)
+    console.log('updates will be sent to server')
+    console.log('blogid', blogId)
     blogService
       .update(blogObject, blogId)
       .then(returnedBlog => {
-        console.log("returned blog with added likes", returnedBlog)
+        console.log('returned blog with added likes', returnedBlog)
         let index = blogs.findIndex(blog => blog.id === returnedBlog.id)
-        console.log("blogs original blog", blogs[index])
+        console.log('blogs original blog', blogs[index])
         blogs[index] = returnedBlog
-        console.log("blogs[index]",blogs[index])
+        console.log('blogs[index]',blogs[index])
         setBlogs(blogs.sort((a, b) => (b.likes > a.likes) ? 1 : ((a.likes > b.likes)? -1 : 0)))
       })
   }
 
   const deleteBlog = (blog) => {
     if(window.confirm(`Delete ${blog.title} by ${blog.author} ?`)){
-      console.log("blog.id",blog.id)
+      console.log('blog.id',blog.id)
       blogService
         .deleteBlog(blog.id)
-        console.log("blog.title1", blog.title)
-        setBlogs(blogs.filter(b => b.id !== blog.id))
-        console.log("blog.title2", blog.title)
-        setSuccessMessage(`Deleted ${blog.tilte} by ${blog.author}.`)
-        setTimeout(() => {
-          setSuccessMessage(null)
-        }, 5000)
-  }}
+      console.log('blog.title1', blog.title)
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+      console.log('blog.title2', blog.title)
+      setSuccessMessage(`Deleted ${blog.tilte} by ${blog.author}.`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    }}
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
