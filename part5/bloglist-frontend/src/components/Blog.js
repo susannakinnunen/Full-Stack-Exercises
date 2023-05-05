@@ -61,6 +61,20 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
     deleteBlog(blog)
   }
 
+  if (showAll && !blog_user){
+    console.log('blogilla ei ole useria')
+    return (
+      <div style={blogStyle}>
+        <div>
+          <p>{blog.title} {blog.author}</p>
+          <p>{blog.url}</p>
+          <p>{likes}</p> <button onClick={handleLikes}>like</button>
+          <button onClick={handleshowAll}>{hideOrViewText}</button>
+        </div>
+      </div>
+    )
+  }
+
   if (showAll && blog_user.username === loggedUser.username) {
     console.log('show remove button')
     return (
@@ -77,6 +91,7 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
     )}
 
   if (showAll && blog_user ) {
+    console.log('blogilla on user')
     return (
       <div style={blogStyle}>
         <div>
@@ -88,18 +103,7 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
         </div>
       </div>
     )}
-  if (showAll){
-    return (
-      <div style={blogStyle}>
-        <div>
-          <p>{blog.title} {blog.author}</p>
-          <p>{blog.url}</p>
-          <p>{likes}</p> <button onClick={handleLikes}>like</button>
-          <button onClick={handleshowAll}>{hideOrViewText}</button>
-        </div>
-      </div>
-    )
-  }
+
   return (
     <div style={blogStyle}>
       <div>
