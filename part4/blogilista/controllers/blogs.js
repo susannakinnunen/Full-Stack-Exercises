@@ -25,6 +25,7 @@ blogsRouter.post('/', async (request, response) => {
 
     try{
     const savedBlog = await blog.save()
+    const result = savedBlog.populate('user', { username: 1, name: 1})
     user.notes = user.notes.concat(savedBlog._id)
     await user.save()
     response.status(201).json(savedBlog) 
@@ -41,6 +42,7 @@ blogsRouter.delete('/:id', async (request, response) => {
   // console.log("blog.user", blog.user.toString())
   // console.log("user.toString", user._id.toString())
   if (blog.user.toString() === user._id.toString()) {
+    console.log("ollaanko backendissä 2")
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
   } else response.status(401).json({error: 'only the user who has posted the blog can delete it'})
@@ -56,9 +58,10 @@ blogsRouter.put('/:id', async (request, response) => {
     likes: body.likes ? body.likes : 0
   }
 
-  await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+  updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
   
-  response.status(200).json()
+  response.status(200).json(updatedBlog)
+
 })
 
 module.exports = blogsRouter
