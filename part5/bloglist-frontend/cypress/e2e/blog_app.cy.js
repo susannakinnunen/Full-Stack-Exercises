@@ -103,7 +103,70 @@ describe('Blog app', function() {
 
         cy.contains('#remove-button').should('not.exist')
       })
+      it('Blogs shown in the order of likes', function() {
+        cy.request({
+          url: 'http://localhost:3003/api/blogs',
+          method: 'POST',
+          body: {
+            title:'Cypress Blog 2',
+            author: 'Cypress Author 2',
+            url:'www.cypress2.com'
+          },
+          headers: {
+            'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+          }
+        })
+        cy.visit('http://localhost:3000')
+        cy.contains('Cypress Blog 2')
 
+        cy.request({
+          url: 'http://localhost:3003/api/blogs',
+          method: 'POST',
+          body: {
+            title:'Cypress Blog 3',
+            author: 'Cypress Author 3',
+            url:'www.cypress3.com'
+          },
+          headers: {
+            'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+          }
+        })
+        cy.visit('http://localhost:3000')
+        cy.contains('Cypress Blog 3')
+
+        cy.contains('Cypress Blog 3 Cypress Author 3').find('button').as('viewCypressButton')
+        cy.get('@viewCypressButton').click()
+
+        cy.get('#like-button').click()
+
+        cy.contains('1')
+
+        cy.visit('http://localhost:3000')
+
+        cy.contains('Cypress Blog 3 Cypress Author 3').find('button').as('viewCypressButton')
+        cy.get('@viewCypressButton').click()
+
+        cy.get('#like-button').click()
+        cy.contains('2')
+
+        cy.get('.blog').get('#hideOrView-button').click()
+
+        cy.contains('Cypress Blog 2 Cypress Author 2').find('button').as('viewCypressButton')
+        cy.get('@viewCypressButton').click()
+
+        cy.get('#like-button').click()
+
+        cy.contains('1')
+        cy.get('.blog').get('#hideOrView-button').click()
+        cy.visit('http://localhost:3000')
+
+        cy.get('.blog').eq(0).should('contain', 'Cypress Blog 3 Cypress Author 3')
+        cy.get('.blog').eq(1).should('contain', 'Cypress Blog 2 Cypress Author 2')
+        cy.get('.blog').eq(2).should('contain', 'Cypress Blog Cypress Author')
+
+        cy.get('.blog').eq(2).should('not.contain', 'Cypress Blog 3 Cypress Author 3')
+
+      })
     })
   })
 })

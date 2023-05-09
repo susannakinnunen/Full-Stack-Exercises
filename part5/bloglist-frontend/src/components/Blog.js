@@ -64,12 +64,12 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
   if (showAll && !blog_user){
     console.log('blogilla ei ole useria')
     return (
-      <div style={blogStyle}>
+      <div className='blog' style={blogStyle}>
         <div>
           <p>{blog.title} {blog.author}</p>
           <p>{blog.url}</p>
           <p>{likes}</p> <button id='like-button' onClick={handleLikes}>like</button>
-          <button onClick={handleshowAll}>{hideOrViewText}</button>
+          <button id='hideOrView-button' onClick={handleshowAll}>{hideOrViewText}</button>
         </div>
       </div>
     )
@@ -78,13 +78,13 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
   if (showAll && blog_user.username === loggedUser.username) {
     console.log('show remove button')
     return (
-      <div style={blogStyle}>
+      <div className='blog' style={blogStyle}>
         <div>
           <p>{blog.title} {blog.author}</p>
           <p>{blog.url}</p>
           <p>{likes}</p> <button id='like-button' onClick={handleLikes}>like</button>
           <p>{blog_user.username}</p>
-          <button onClick={handleshowAll}>{hideOrViewText}</button>
+          <button id='hideOrView-button' onClick={handleshowAll}>{hideOrViewText}</button>
           <button id='remove-button' onClick={() => handleDelete(blog)}>remove</button>
         </div>
       </div>
@@ -93,22 +93,22 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
   if (showAll && blog_user ) {
     console.log('blogilla on user')
     return (
-      <div style={blogStyle}>
+      <div className='blog' style={blogStyle}>
         <div>
           <p>{blog.title} {blog.author}</p>
           <p>{blog.url}</p>
           <p>{likes}</p> <button id='like-button' onClick={handleLikes}>like</button>
           <p>{blog_user.username}</p>
-          <button onClick={handleshowAll}>{hideOrViewText}</button>
+          <button id='hideOrView-button' onClick={handleshowAll}>{hideOrViewText}</button>
         </div>
       </div>
     )}
 
   return (
-    <div style={blogStyle}>
+    <div className='blog' style={blogStyle}>
       <div>
         {blog.title} {blog.author}
-        <button onClick={handleshowAll}>{hideOrViewText}</button>
+        <button id='hideOrView-button' onClick={handleshowAll}>{hideOrViewText}</button>
       </div>
     </div>
   )}
