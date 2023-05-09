@@ -68,7 +68,7 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
         <div>
           <p>{blog.title} {blog.author}</p>
           <p>{blog.url}</p>
-          <p>{likes}</p> <button onClick={handleLikes}>like</button>
+          <p>{likes}</p> <button id='like-button' onClick={handleLikes}>like</button>
           <button onClick={handleshowAll}>{hideOrViewText}</button>
         </div>
       </div>
@@ -82,7 +82,7 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
         <div>
           <p>{blog.title} {blog.author}</p>
           <p>{blog.url}</p>
-          <p>{likes}</p> <button onClick={handleLikes}>like</button>
+          <p>{likes}</p> <button id='like-button' onClick={handleLikes}>like</button>
           <p>{blog_user.username}</p>
           <button onClick={handleshowAll}>{hideOrViewText}</button>
           <button onClick={() => handleDelete(blog)}>remove</button>
@@ -97,7 +97,7 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
         <div>
           <p>{blog.title} {blog.author}</p>
           <p>{blog.url}</p>
-          <p>{likes}</p> <button onClick={handleLikes}>like</button>
+          <p>{likes}</p> <button id='like-button' onClick={handleLikes}>like</button>
           <p>{blog_user.username}</p>
           <button onClick={handleshowAll}>{hideOrViewText}</button>
         </div>

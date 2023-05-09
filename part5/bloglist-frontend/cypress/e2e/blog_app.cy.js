@@ -55,5 +55,33 @@ describe('Blog app', function() {
       cy.contains('Cypress Blog Cypress Author').parent().find('button')
         .should('contain', 'view')
     })
+
+    describe('and a blog exists', function(){
+      beforeEach(function() {
+        cy.request({
+          url: 'http://localhost:3003/api/blogs',
+          method: 'POST',
+          body: {
+            title:'Cypress Blog',
+            author: 'Cypress Author',
+            url:'www.cypress.com'
+          },
+          headers: {
+            'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+          }
+        })
+        cy.visit('http://localhost:3000')
+      })
+      it('A like can be added to a blog', function() {
+        cy.contains('Cypress Blog Cypress Author').find('button').as('viewCypressButton')
+        cy.get('@viewCypressButton').click()
+
+        cy.get('#like-button').click()
+
+        cy.contains('1')
+      })
+    })
+
+
   })
 })
