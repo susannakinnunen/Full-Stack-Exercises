@@ -88,6 +88,22 @@ describe('Blog app', function() {
         cy.get('html').should('not.contain', 'Cypress Blog Cypress Author')
 
       })
+      it('Only user who added the blog can see remove-button', function() {
+        cy.request('POST', 'http://localhost:3003/api/users',
+          { username: 'sussu', password:'salainen'
+          })
+        cy.request('POST', 'http://localhost:3003/api/login', {
+          username: 'sussu', password: 'salainen'
+        }).then(response => {
+          localStorage.setItem('loggedBlogappUser', JSON.stringify(response.body))
+          cy.visit('http://localhost:3000')
+        })
+        cy.contains('Cypress Blog Cypress Author').find('button').as('viewCypressButton')
+        cy.get('@viewCypressButton').click()
+
+        cy.contains('#remove-button').should('not.exist')
+      })
+
     })
   })
 })
