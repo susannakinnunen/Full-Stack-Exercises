@@ -80,8 +80,14 @@ describe('Blog app', function() {
 
         cy.contains('1')
       })
+      it('Blog can be deleted by the user who added it', function() {
+        cy.contains('Cypress Blog Cypress Author').find('button').as('viewCypressButton')
+        cy.get('@viewCypressButton').click()
+
+        cy.get('#remove-button').click()
+        cy.get('html').should('not.contain', 'Cypress Blog Cypress Author')
+
+      })
     })
-
-
   })
 })

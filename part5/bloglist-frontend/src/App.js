@@ -101,7 +101,7 @@ const App = () => {
       console.log('blog.title1', blog.title)
       setBlogs(blogs.filter(b => b.id !== blog.id))
       console.log('blog.title2', blog.title)
-      setSuccessMessage(`Deleted ${blog.tilte} by ${blog.author}.`)
+      setSuccessMessage(`Deleted ${blog.title} by ${blog.author}.`)
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
